@@ -1,101 +1,144 @@
+"use client";
+import { useState, useEffect } from "react";
+import { TypewriterEffect } from "../components/ui/typewriter-effect";
+import Navbar from "../components/NavBar";
+import Link from 'next/link';
+import { FcKindle, FcLinux } from "react-icons/fc";
 import Image from "next/image";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+export default function TypewriterEffectDemo() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const isBrowser = typeof window !== "undefined";
+
+  const handleScroll = () => {
+    if (isBrowser) {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight;
+      const winHeight = window.innerHeight;
+      const scrollPercent = (scrollTop / (docHeight - winHeight)) * 100;
+
+      if (scrollTop > 200) {
+        setShowScrollToTop(true);
+      } else {
+        setShowScrollToTop(false);
+      }
+
+      setScrollProgress(scrollPercent);
+    }
+  };
+
+  const scrollToTop = () => {
+    if (isBrowser) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    if (isBrowser) {
+      window.addEventListener("scroll", handleScroll);
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, [isBrowser]);
+
+  const words = [
+    { text: "Nur" },
+    { text: "Azani" },
+    { text: "Bayu" },
+    { text: "Rezki.", className: "text-blue-900 dark:text-blue-500" },
+  ];
+
+  return (
+    <>
+      {/* Halaman pertama */}
+      <div className="flex flex-col items-center justify-center min-h-screen" id="Home">
+        <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
+        <Image
+          src="/egg.png"
+          alt="Logo Desa Mentuda"
+          className="mb-8 h-25 w-25"
+          width={150}
+          height={150}
+        />
+        <TypewriterEffect words={words} />
+        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 mt-10 items-center justify-center">
+          <div className="flex flex-col items-center text-center">
+            <p className="text-neutral-600 dark:text-neutral-200 text-base mb-4">
+              Web Developer & UI/UX Enthusiast
+            </p>
+            <p className="text-neutral-500 dark:text-neutral-300 text-base">
+              I am a <b>Fullstack Developer</b> from Indonesia, I have a strong understanding of programming languages ​​and have experience in <b>Web Developer</b> projects.
+            </p>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 mt-10">
+          <Link href="/Resume">
+            <button className="flex items-center bg-yellow-300 hover:bg-yellow-500 text-blue-900 font-medium py-3 px-4 rounded-lg shadow-lg border-2 border-b-4 border-blue-900  transition-all duration-300 hover:scale-105">
+              <FcKindle className="mr-2" size={24} />
+              <span>My Resume</span>
+            </button>
+          </Link>
+          <Link href="/About">
+            <button className="flex items-center bg-white hover:bg-neutral-200 text-blue-900 font-medium py-3 px-4 rounded-lg shadow-lg border-2 border-b-4 border-blue-900  transition-all duration-300 hover:scale-105">
+              <FcLinux className="mr-2" size={26} />
+              <span>See More About Me</span>
+            </button>
+          </Link>
+        </div>
+
+        {showScrollToTop && (
+          <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center z-50">
+            <div
+              className="w-full h-full rounded-full border-4 border-white flex items-center justify-center"
+              style={{
+                background: `conic-gradient(#4F46E5 ${scrollProgress}%, transparent ${scrollProgress}% 100%)`,
+              }}
+            >
+              <button
+                onClick={scrollToTop}
+                className="bg-blue-500 text-white w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-900 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
+              >
+                <span className="text-lg md:text-xl">🚀</span>
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+     {/* About Section */}
+     <div className="flex flex-col items-center justify-center min-h-screen " id="About">
+        <h2 className="text-3xl font-bold mb-6">😎 About</h2>
+        <p className="text-lg mb-4">This is a new section that appears below the first page. You can add more content here as needed.</p>
+      </div>
+
+      {/* Education Section */}
+      <div className="flex flex-col items-center justify-center min-h-screen " id="Education">
+        <h2 className="text-3xl font-bold mb-6">🎓 Education</h2>
+        <p className="text-lg mb-4">Add your educational background here.</p>
+      </div>
+
+      {/* Project Section */}
+      <div className="flex flex-col items-center justify-center min-h-screen " id="Project">
+        <h2 className="text-3xl font-bold mb-6">⚒️ Projects</h2>
+        <p className="text-lg mb-4">Showcase your projects here.</p>
+      </div>
+
+      {/* Resume Section */}
+      <div className="flex flex-col items-center justify-center min-h-screen " id="Resume">
+        <h2 className="text-3xl font-bold mb-6">📑 Resume</h2>
+        <p className="text-lg mb-4">Add a downloadable resume here.</p>
+      </div>
+
+      {/* Contact Section */}
+      <div className="flex flex-col items-center justify-center min-h-screen " id="Contact">
+        <h2 className="text-3xl font-bold mb-6">📲 Contact</h2>
+        <p className="text-lg mb-4">Provide your contact details here.</p>
+      </div>
+    </>
   );
 }
