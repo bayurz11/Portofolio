@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState, useRef } from "react";
 import Link from 'next/link';
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { BsFillSunFill, BsMoonStarsFill } from "react-icons/bs";
@@ -9,11 +9,25 @@ interface NavbarProps {
 }
 
 export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
-  const [activeSection, setActiveSection] = useState<string>(""); // Menyimpan ID section yang aktif
+  const [currentPath, setCurrentPath] = useState<string>("#Home");
   const [hasShadow, setHasShadow] = useState<boolean>(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
 
+  // Referensi untuk elemen dengan ID
+  const sectionsRef = {
+    home: useRef<HTMLDivElement>(null),
+    about: useRef<HTMLDivElement>(null),
+    education: useRef<HTMLDivElement>(null),
+    project: useRef<HTMLDivElement>(null),
+    resume: useRef<HTMLDivElement>(null),
+    contact: useRef<HTMLDivElement>(null),
+  };
+
   useEffect(() => {
+    // Mengatur path saat ini
+    const initialPath = window.location.hash || "#Home";
+    setCurrentPath(initialPath);
+
     // Menambahkan event listener untuk shadow pada navbar saat scroll
     const handleScroll = () => {
       if (window.scrollY > 0) {
@@ -29,37 +43,42 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
     if (savedMode) {
       const isDark = savedMode === "true";
       setDarkMode(isDark);
-      if (isDark) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
+      document.documentElement.classList.toggle("dark", isDark);
     }
 
-    // Memantau section yang terlihat di viewport
-    const sections = document.querySelectorAll("section");
+    // Implementasikan IntersectionObserver
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActiveSection(entry.target.id); // Update section yang aktif
+            setCurrentPath(`#${entry.target.id}`);
           }
         });
       },
-      { threshold: 0.5 } // Set threshold agar hanya ter-trigger jika 50% elemen terlihat
+      { threshold: 0.5 }
     );
 
-    sections.forEach((section) => observer.observe(section));
+    // Pastikan elemen sudah ada di DOM sebelum mengobservasi
+    const observeElements = () => {
+      Object.values(sectionsRef).forEach((ref) => {
+        if (ref.current) {
+          observer.observe(ref.current);
+        }
+      });
+    };
 
-    // Membersihkan event listener dan observer saat komponen di-unmount
+    // Observasi setelah rendering
+    setTimeout(observeElements, 0);
+
+    // Membersihkan event listener saat komponen di-unmount
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      sections.forEach((section) => observer.unobserve(section));
+      observer.disconnect();
     };
   }, []);
 
-  const isActive = (id: string) => 
-    activeSection === id ? "text-blue-900 dark:text-white" : "text-gray-700 dark:text-gray-200";
+  const isActive = (path: string) =>
+    currentPath === path ? "text-blue-900 dark:text-white" : "text-gray-700 dark:text-gray-200";
 
   const toggleDarkMode = () => {
     const newDarkMode = !darkMode;
@@ -78,63 +97,53 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
           <Link href="/" className="flex-shrink-0 flex items-center">
-            <span className="ml-2 font-semibold text-2xl dark:text-white">
-              BAYU REZ
-            </span>
+            <span className="ml-2 font-semibold text-2xl dark:text-white">BAYU REZ</span>
           </Link>
 
           {/* Menu Desktop */}
           <div className="hidden md:flex flex-1 justify-center items-center">
             <div className="flex space-x-9">
-              <Link href="#Home" className={`relative ${isActive("Home")} group`}>
-                <span className="flex items-center space-x-2 text-lg transition-colors duration-300  ">
-                  🚀 <span>Home</span>
-                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${activeSection === "Home" ? "scale-x-100" : ""}`}></span>
+              <Link href="#Home" className={`relative ${isActive("#Home")} group`}>
+                <span className="flex items-center space-x-2 text-lg transition-colors duration-300">🚀 <span>Home</span>
+                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Home" ? "scale-x-100" : ""}`}></span>
                 </span>
               </Link>
-              <Link href="#About" className={`relative ${isActive("About")} group`}>
-                <span className="flex items-center space-x-2 text-lg transition-colors duration-300  ">
-                  😎 <span>About</span>
-                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${activeSection === "About" ? "scale-x-100" : ""}`}></span>
+              <Link href="#About" className={`relative ${isActive("#About")} group`}>
+                <span className="flex items-center space-x-2 text-lg transition-colors duration-300">😎 <span>About</span>
+                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#About" ? "scale-x-100" : ""}`}></span>
                 </span>
               </Link>
-              <Link href="#Education" className={`relative ${isActive("Education")} group`}>
-                <span className="flex items-center space-x-2 text-lg transition-colors duration-300  ">
-                  🎓 <span>Education</span>
-                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${activeSection === "Education" ? "scale-x-100" : ""}`}></span>
+              <Link href="#Education" className={`relative ${isActive("#Education")} group`}>
+                <span className="flex items-center space-x-2 text-lg transition-colors duration-300">🎓 <span>Education</span>
+                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Education" ? "scale-x-100" : ""}`}></span>
                 </span>
               </Link>
-              <Link href="#Project" className={`relative ${isActive("Project")} group`}>
-                <span className="flex items-center space-x-2 text-lg transition-colors duration-300  ">
-                  ⚒️ <span>Project</span>
-                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${activeSection === "Project" ? "scale-x-100" : ""}`}></span>
+              <Link href="#Project" className={`relative ${isActive("#Project")} group`}>
+                <span className="flex items-center space-x-2 text-lg transition-colors duration-300">⚒️ <span>Project</span>
+                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Project" ? "scale-x-100" : ""}`}></span>
                 </span>
               </Link>
-              <Link href="#Resume" className={`relative ${isActive("Resume")} group`}>
-                <span className="flex items-center space-x-2 text-lg transition-colors duration-300  ">
-                  📑 <span>Resume</span>
-                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${activeSection === "Resume" ? "scale-x-100" : ""}`}></span>
+              <Link href="#Resume" className={`relative ${isActive("#Resume")} group`}>
+                <span className="flex items-center space-x-2 text-lg transition-colors duration-300">📑 <span>Resume</span>
+                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Resume" ? "scale-x-100" : ""}`}></span>
                 </span>
               </Link>
-              <Link href="#Contact" className={`relative ${isActive("Contact")} group`}>
-                <span className="flex items-center space-x-2 text-lg transition-colors duration-300  ">
-                  📲 <span>Contact</span>
-                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${activeSection === "Contact" ? "scale-x-100" : ""}`}></span>
+              <Link href="#Contact" className={`relative ${isActive("#Contact")} group`}>
+                <span className="flex items-center space-x-2 text-lg transition-colors duration-300">📲 <span>Contact</span>
+                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Contact" ? "scale-x-100" : ""}`}></span>
                 </span>
               </Link>
             </div>
           </div>
 
           {/* Icon GitHub, Toggle Dark Mode, LinkedIn */}
-          <div className="hidden md:flex items-center space-x-4 ">
+          <div className="hidden md:flex items-center space-x-4">
             <a href="https://id.linkedin.com/in/nur-azani-bayu-rezki-08369a219" target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-600 hover:scale-105">
               <FaLinkedin size={24} />
             </a>
-
             <a href="https://github.com/bayurz11" target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 hover:scale-105">
               <FaGithub size={24} />
             </a>
-
             <button onClick={toggleDarkMode} className="focus:outline-none">
               {darkMode ? <BsFillSunFill size={24} className="text-yellow-500" /> : <BsMoonStarsFill size={20} className="text-gray-700 dark:text-gray-200" />}
             </button>
@@ -142,33 +151,25 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
 
           {/* Tombol Menu Mobile */}
           <div className="-mr-2 flex md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:text-white"
-            >
-              <svg
-                className="h-6 w-6"
-                stroke="currentColor"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  className={`${isOpen ? "hidden" : "inline-flex"}`}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-                <path
-                  className={`${isOpen ? "inline-flex" : "hidden"}`}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
+            <button onClick={() => setIsOpen(!isOpen)} className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:text-white">
+              <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                <path className={`${isOpen ? "hidden" : "inline-flex"}`} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+                <path className={`${isOpen ? "inline-flex" : "hidden"}`} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
+        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+          <Link href="#Home" className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Home")}`}>🚀 Home</Link>
+          <Link href="#About" className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#About")}`}>😎 About</Link>
+          <Link href="#Education" className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Education")}`}>🎓 Education</Link>
+          <Link href="#Project" className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Project")}`}>⚒️ Project</Link>
+          <Link href="#Resume" className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Resume")}`}>📑 Resume</Link>
+          <Link href="#Contact" className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Contact")}`}>📲 Contact</Link>
         </div>
       </div>
     </nav>
