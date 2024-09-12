@@ -77,6 +77,18 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
     };
   }, []);
 
+  useEffect(() => {
+    // Update currentPath when hash changes
+    const handleHashChange = () => {
+      setCurrentPath(window.location.hash || "#Home");
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, []);
+
   const isActive = (path: string) =>
     currentPath === path ? "text-blue-900 dark:text-white" : "text-gray-700 dark:text-gray-200";
 
@@ -103,34 +115,70 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
           {/* Menu Desktop */}
           <div className="hidden md:flex flex-1 justify-center items-center">
             <div className="flex space-x-9">
-              <Link href="#Home" className={`relative ${isActive("#Home")} group`}>
-                <span className="flex items-center space-x-2 text-lg transition-colors duration-300">🚀 <span>Home</span>
-                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Home" ? "scale-x-100" : ""}`}></span>
+              <Link href="#Home">
+                <span
+                  className={`relative ${isActive("#Home")} group`}
+                  onClick={() => setCurrentPath("#Home")}
+                >
+                  <span className="flex items-center space-x-2 text-lg transition-colors duration-300">
+                    🚀 <span>Home</span>
+                    <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Home" ? "scale-x-100" : ""}`}></span>
+                  </span>
                 </span>
               </Link>
-              <Link href="#About" className={`relative ${isActive("#About")} group`}>
-                <span className="flex items-center space-x-2 text-lg transition-colors duration-300">😎 <span>About</span>
-                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#About" ? "scale-x-100" : ""}`}></span>
+              <Link href="#About">
+                <span
+                  className={`relative ${isActive("#About")} group`}
+                  onClick={() => setCurrentPath("#About")}
+                >
+                  <span className="flex items-center space-x-2 text-lg transition-colors duration-300">
+                    😎 <span>About</span>
+                    <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#About" ? "scale-x-100" : ""}`}></span>
+                  </span>
                 </span>
               </Link>
-              <Link href="#Education" className={`relative ${isActive("#Education")} group`}>
-                <span className="flex items-center space-x-2 text-lg transition-colors duration-300">🎓 <span>Education</span>
-                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Education" ? "scale-x-100" : ""}`}></span>
+              <Link href="#Education">
+                <span
+                  className={`relative ${isActive("#Education")} group`}
+                  onClick={() => setCurrentPath("#Education")}
+                >
+                  <span className="flex items-center space-x-2 text-lg transition-colors duration-300">
+                    🎓 <span>Education</span>
+                    <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Education" ? "scale-x-100" : ""}`}></span>
+                  </span>
                 </span>
               </Link>
-              <Link href="#Project" className={`relative ${isActive("#Project")} group`}>
-                <span className="flex items-center space-x-2 text-lg transition-colors duration-300">⚒️ <span>Project</span>
-                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Project" ? "scale-x-100" : ""}`}></span>
+              <Link href="#Project">
+                <span
+                  className={`relative ${isActive("#Project")} group`}
+                  onClick={() => setCurrentPath("#Project")}
+                >
+                  <span className="flex items-center space-x-2 text-lg transition-colors duration-300">
+                    ⚒️ <span>Project</span>
+                    <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Project" ? "scale-x-100" : ""}`}></span>
+                  </span>
                 </span>
               </Link>
-              <Link href="#Resume" className={`relative ${isActive("#Resume")} group`}>
-                <span className="flex items-center space-x-2 text-lg transition-colors duration-300">📑 <span>Resume</span>
-                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Resume" ? "scale-x-100" : ""}`}></span>
+              <Link href="#Resume">
+                <span
+                  className={`relative ${isActive("#Resume")} group`}
+                  onClick={() => setCurrentPath("#Resume")}
+                >
+                  <span className="flex items-center space-x-2 text-lg transition-colors duration-300">
+                    📑 <span>Resume</span>
+                    <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Resume" ? "scale-x-100" : ""}`}></span>
+                  </span>
                 </span>
               </Link>
-              <Link href="#Contact" className={`relative ${isActive("#Contact")} group`}>
-                <span className="flex items-center space-x-2 text-lg transition-colors duration-300">📲 <span>Contact</span>
-                  <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Contact" ? "scale-x-100" : ""}`}></span>
+              <Link href="#Contact">
+                <span
+                  className={`relative ${isActive("#Contact")} group`}
+                  onClick={() => setCurrentPath("#Contact")}
+                >
+                  <span className="flex items-center space-x-2 text-lg transition-colors duration-300">
+                    📲 <span>Contact</span>
+                    <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Contact" ? "scale-x-100" : ""}`}></span>
+                  </span>
                 </span>
               </Link>
             </div>
@@ -141,10 +189,10 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
             <a href="https://id.linkedin.com/in/nur-azani-bayu-rezki-08369a219" target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-600 hover:scale-105">
               <FaLinkedin size={24} />
             </a>
-            <a href="https://github.com/bayurz11" target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 hover:scale-105">
+            <a href="https://github.com/bayurz11" target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-200 hover:text-gray-800 dark:hover:text-gray-400 hover:scale-105">
               <FaGithub size={24} />
             </a>
-            <button onClick={toggleDarkMode} className="focus:outline-none">
+            <button onClick={toggleDarkMode} className="text-gray-700 dark:text-gray-200">
               {darkMode ? <BsFillSunFill size={24} className="text-yellow-500" /> : <BsMoonStarsFill size={20} className="text-gray-700 dark:text-gray-200" />}
             </button>
           </div>
@@ -164,12 +212,24 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
       {/* Mobile Menu */}
       <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
-          <Link href="#Home" className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Home")}`}>🚀 Home</Link>
-          <Link href="#About" className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#About")}`}>😎 About</Link>
-          <Link href="#Education" className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Education")}`}>🎓 Education</Link>
-          <Link href="#Project" className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Project")}`}>⚒️ Project</Link>
-          <Link href="#Resume" className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Resume")}`}>📑 Resume</Link>
-          <Link href="#Contact" className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Contact")}`}>📲 Contact</Link>
+          <Link href="#Home" scroll={false} className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Home")}`} onClick={() => setCurrentPath("#Home")}>
+            🚀 Home
+          </Link>
+          <Link href="#About" scroll={false} className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#About")}`} onClick={() => setCurrentPath("#About")}>
+            😎 About
+          </Link>
+          <Link href="#Education" scroll={false} className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Education")}`} onClick={() => setCurrentPath("#Education")}>
+            🎓 Education
+          </Link>
+          <Link href="#Project" scroll={false} className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Project")}`} onClick={() => setCurrentPath("#Project")}>
+            ⚒️ Project
+          </Link>
+          <Link href="#Resume" scroll={false} className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Resume")}`} onClick={() => setCurrentPath("#Resume")}>
+            📑 Resume
+          </Link>
+          <Link href="#Contact" scroll={false} className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Contact")}`} onClick={() => setCurrentPath("#Contact")}>
+            📲 Contact
+          </Link>
         </div>
       </div>
     </nav>
