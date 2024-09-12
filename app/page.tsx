@@ -1,10 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
-import { TypewriterEffect } from "../components/ui/typewriter-effect";
-import Navbar from "../components/NavBar";
-import Link from "next/link";
-import { FcKindle, FcLinux } from "react-icons/fc";
-import Image from "next/image";
+import { useState, useEffect } from 'react';
+import { TypewriterEffect } from '../components/ui/typewriter-effect';
+import Navbar from '../components/NavBar';
+import Link from 'next/link';
+import { FcKindle, FcLinux } from 'react-icons/fc';
+import Image from 'next/image';
 
 export default function TypewriterEffectDemo() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,22 +24,22 @@ export default function TypewriterEffectDemo() {
 
   // Smooth scroll to the top of the page
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   // Words for typewriter effect
   const words = [
-    { text: "Nur" },
-    { text: "Azani" },
-    { text: "Bayu" },
-    { text: "Rezki.", className: "text-blue-900 dark:text-blue-500" },
+    { text: 'Nur' },
+    { text: 'Azani' },
+    { text: 'Bayu' },
+    { text: 'Rezki.', className: 'text-blue-900 dark:text-blue-500' },
   ];
 
   return (
@@ -65,17 +65,17 @@ export default function TypewriterEffectDemo() {
             </p>
           </div>
         </div>
-        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 mt-10">
+        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 mt-10 items-center">
           <Link href="#Resume">
-            <button className="flex items-center bg-yellow-300 hover:bg-yellow-500 text-blue-900 font-medium py-3 px-4 rounded-lg shadow-lg border-2 border-b-4 border-blue-900 transition-all duration-300 hover:scale-105">
+            <button className="flex items-center bg-yellow-300 hover:bg-yellow-500 text-blue-900 font-medium py-2 px-4 md:py-3 md:px-6 rounded-lg shadow-lg border-2 border-b-4 border-blue-900 transition-all duration-300 hover:scale-105">
               <FcKindle className="mr-2" size={24} />
-              <span>My Resume</span>
+              <span className="text-sm md:text-base">My Resume</span>
             </button>
           </Link>
           <Link href="#About">
-            <button className="flex items-center bg-white hover:bg-neutral-200 text-blue-900 font-medium py-3 px-4 rounded-lg shadow-lg border-2 border-b-4 border-blue-900 transition-all duration-300 hover:scale-105">
-              <FcLinux className="mr-2" size={26} />
-              <span>See More About Me</span>
+            <button className="flex items-center bg-white hover:bg-neutral-200 text-blue-900 font-medium py-2 px-4 md:py-3 md:px-6 rounded-lg shadow-lg border-2 border-b-4 border-blue-900 transition-all duration-300 hover:scale-105">
+              <FcLinux className="mr-2" size={24} />
+              <span className="text-sm md:text-base">See More About Me</span>
             </button>
           </Link>
         </div>
@@ -130,3 +130,4 @@ export default function TypewriterEffectDemo() {
     </>
   );
 }
+

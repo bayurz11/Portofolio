@@ -9,7 +9,7 @@ interface NavbarProps {
 }
 
 export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
-  const [currentPath, setCurrentPath] = useState<string>("#Home");
+  const [currentPath, setCurrentPath] = useState<string>("");
   const [hasShadow, setHasShadow] = useState<boolean>(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
 
