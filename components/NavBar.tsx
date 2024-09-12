@@ -13,6 +13,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
   const [hasShadow, setHasShadow] = useState<boolean>(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
 
+  // Referensi untuk elemen dengan ID
   const sectionsRef = {
     home: useRef<HTMLDivElement>(null),
     about: useRef<HTMLDivElement>(null),
@@ -23,9 +24,11 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
   };
 
   useEffect(() => {
+    // Mengatur path saat ini
     const initialPath = window.location.hash || "#Home";
     setCurrentPath(initialPath);
 
+    // Menambahkan event listener untuk shadow pada navbar saat scroll
     const handleScroll = () => {
       if (window.scrollY > 0) {
         setHasShadow(true);
@@ -35,6 +38,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
     };
     window.addEventListener("scroll", handleScroll);
 
+    // Mengecek preferensi dark mode dari localStorage
     const savedMode = localStorage.getItem("darkMode");
     if (savedMode) {
       const isDark = savedMode === "true";
@@ -42,6 +46,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
       document.documentElement.classList.toggle("dark", isDark);
     }
 
+    // Implementasikan IntersectionObserver
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -53,6 +58,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
       { threshold: 0.5 }
     );
 
+    // Pastikan elemen sudah ada di DOM sebelum mengobservasi
     const observeElements = () => {
       Object.values(sectionsRef).forEach((ref) => {
         if (ref.current) {
@@ -61,8 +67,10 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
       });
     };
 
+    // Observasi setelah rendering
     setTimeout(observeElements, 0);
 
+    // Membersihkan event listener saat komponen di-unmount
     return () => {
       window.removeEventListener("scroll", handleScroll);
       observer.disconnect();
@@ -70,6 +78,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
   }, []);
 
   useEffect(() => {
+    // Update currentPath when hash changes
     const handleHashChange = () => {
       setCurrentPath(window.location.hash || "#Home");
     };
@@ -86,7 +95,11 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
   const toggleDarkMode = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
+    
+    // Set atau hapus kelas dark berdasarkan mode yang baru
     document.documentElement.classList.toggle("dark", newDarkMode);
+    
+    // Simpan status mode gelap ke localStorage
     localStorage.setItem("darkMode", newDarkMode.toString());
   };
 
@@ -102,25 +115,72 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
           {/* Menu Desktop */}
           <div className="hidden md:flex flex-1 justify-center items-center">
             <div className="flex space-x-9">
-              {["Home", "About", "Education", "Project", "Resume", "Contact"].map((section) => (
-                <Link key={section} href={`#${section}`} scroll={false}>
-                  <span
-                    className={`relative ${isActive(`#${section}`)} group`}
-                    onClick={() => setCurrentPath(`#${section}`)}
-                  >
-                    <span className="flex items-center space-x-2 text-lg transition-colors duration-300">
-                      {section === "Home" && "🚀"}
-                      {section === "About" && "😎"}
-                      {section === "Education" && "🎓"}
-                      {section === "Project" && "⚒️"}
-                      {section === "Resume" && "📑"}
-                      {section === "Contact" && "📲"}
-                      <span>{section}</span>
-                      <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === `#${section}` ? "scale-x-100" : ""}`}></span>
-                    </span>
+              <Link href="#Home">
+                <span
+                  className={`relative ${isActive("#Home")} group`}
+                  onClick={() => setCurrentPath("#Home")}
+                >
+                  <span className="flex items-center space-x-2 text-lg transition-colors duration-300">
+                    🚀 <span>Home</span>
+                    <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Home" ? "scale-x-100" : ""}`}></span>
                   </span>
-                </Link>
-              ))}
+                </span>
+              </Link>
+              <Link href="#About">
+                <span
+                  className={`relative ${isActive("#About")} group`}
+                  onClick={() => setCurrentPath("#About")}
+                >
+                  <span className="flex items-center space-x-2 text-lg transition-colors duration-300">
+                    😎 <span>About</span>
+                    <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#About" ? "scale-x-100" : ""}`}></span>
+                  </span>
+                </span>
+              </Link>
+              <Link href="#Education">
+                <span
+                  className={`relative ${isActive("#Education")} group`}
+                  onClick={() => setCurrentPath("#Education")}
+                >
+                  <span className="flex items-center space-x-2 text-lg transition-colors duration-300">
+                    🎓 <span>Education</span>
+                    <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Education" ? "scale-x-100" : ""}`}></span>
+                  </span>
+                </span>
+              </Link>
+              <Link href="#Project">
+                <span
+                  className={`relative ${isActive("#Project")} group`}
+                  onClick={() => setCurrentPath("#Project")}
+                >
+                  <span className="flex items-center space-x-2 text-lg transition-colors duration-300">
+                    ⚒️ <span>Project</span>
+                    <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Project" ? "scale-x-100" : ""}`}></span>
+                  </span>
+                </span>
+              </Link>
+              <Link href="#Resume">
+                <span
+                  className={`relative ${isActive("#Resume")} group`}
+                  onClick={() => setCurrentPath("#Resume")}
+                >
+                  <span className="flex items-center space-x-2 text-lg transition-colors duration-300">
+                    📑 <span>Resume</span>
+                    <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Resume" ? "scale-x-100" : ""}`}></span>
+                  </span>
+                </span>
+              </Link>
+              <Link href="#Contact">
+                <span
+                  className={`relative ${isActive("#Contact")} group`}
+                  onClick={() => setCurrentPath("#Contact")}
+                >
+                  <span className="flex items-center space-x-2 text-lg transition-colors duration-300">
+                    📲 <span>Contact</span>
+                    <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${currentPath === "#Contact" ? "scale-x-100" : ""}`}></span>
+                  </span>
+                </span>
+              </Link>
             </div>
           </div>
 
@@ -152,25 +212,24 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
       {/* Mobile Menu */}
       <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
-          {["Home", "About", "Education", "Project", "Resume", "Contact"].map((section) => (
-            <Link key={section} href={`#${section}`} scroll={false}>
-              <span
-                className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive(`#${section}`)}`}
-                onClick={() => {
-                  setCurrentPath(`#${section}`);
-                  setIsOpen(false); // Close the mobile menu after clicking
-                }}
-              >
-                {section === "Home" && "🚀"}
-                {section === "About" && "😎"}
-                {section === "Education" && "🎓"}
-                {section === "Project" && "⚒️"}
-                {section === "Resume" && "📑"}
-                {section === "Contact" && "📲"}
-                {section}
-              </span>
-            </Link>
-          ))}
+          <Link href="#Home" scroll={false} className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Home")}`} onClick={() => setCurrentPath("#Home")}>
+            🚀 Home
+          </Link>
+          <Link href="#About" scroll={false} className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#About")}`} onClick={() => setCurrentPath("#About")}>
+            😎 About
+          </Link>
+          <Link href="#Education" scroll={false} className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Education")}`} onClick={() => setCurrentPath("#Education")}>
+            🎓 Education
+          </Link>
+          <Link href="#Project" scroll={false} className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Project")}`} onClick={() => setCurrentPath("#Project")}>
+            ⚒️ Project
+          </Link>
+          <Link href="#Resume" scroll={false} className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Resume")}`} onClick={() => setCurrentPath("#Resume")}>
+            📑 Resume
+          </Link>
+          <Link href="#Contact" scroll={false} className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive("#Contact")}`} onClick={() => setCurrentPath("#Contact")}>
+            📲 Contact
+          </Link>
         </div>
       </div>
     </nav>
