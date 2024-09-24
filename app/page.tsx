@@ -98,35 +98,36 @@ export default function TypewriterEffectDemo() {
         )}
       </div>
 
-      {/* About Section */}
-      <div className="flex flex-col items-center justify-center min-h-screen" id="About">
-        <h2 className="text-3xl font-bold mb-6">😎 About</h2>
-        <p className="text-lg mb-4">This is a new section that appears below the first page. You can add more content here as needed.</p>
-      </div>
+     {/* About Section */}
+<div className="flex flex-col items-center justify-center min-h-screen p-4" id="About">
+  <h2 className="text-3xl font-bold mb-6 text-center">😎 About</h2>
+  <p className="text-lg mb-4 text-center">This is a new section that appears below the first page. You can add more content here as needed.</p>
+</div>
 
-      {/* Education Section */}
-      <div className="flex flex-col items-center justify-center min-h-screen" id="Education">
-        <h2 className="text-3xl font-bold mb-6">🎓 Education</h2>
-        <p className="text-lg mb-4">Add your educational background here.</p>
-      </div>
+{/* Education Section */}
+<div className="flex flex-col items-center justify-center min-h-screen p-4" id="Education">
+  <h2 className="text-3xl font-bold mb-6 text-center">🎓 Education</h2>
+  <p className="text-lg mb-4 text-center">Add your educational background here.</p>
+</div>
 
-      {/* Project Section */}
-      <div className="flex flex-col items-center justify-center min-h-screen" id="Project">
-        <h2 className="text-3xl font-bold mb-6">⚒️ Projects</h2>
-        <p className="text-lg mb-4">Showcase your projects here.</p>
-      </div>
+{/* Project Section */}
+<div className="flex flex-col items-center justify-center min-h-screen p-4" id="Project">
+  <h2 className="text-3xl font-bold mb-6 text-center">⚒️ Projects</h2>
+  <p className="text-lg mb-4 text-center">Showcase your projects here.</p>
+</div>
 
-      {/* Resume Section */}
-      <div className="flex flex-col items-center justify-center min-h-screen" id="Resume">
-        <h2 className="text-3xl font-bold mb-6">📑 Resume</h2>
-        <p className="text-lg mb-4">Add a downloadable resume here.</p>
-      </div>
+{/* Resume Section */}
+<div className="flex flex-col items-center justify-center min-h-screen p-4" id="Resume">
+  <h2 className="text-3xl font-bold mb-6 text-center">📑 Resume</h2>
+  <p className="text-lg mb-4 text-center">Add a downloadable resume here.</p>
+</div>
 
-      {/* Contact Section */}
-      <div className="flex flex-col items-center justify-center min-h-screen" id="Contact">
-        <h2 className="text-3xl font-bold mb-6">📲 Contact</h2>
-        <p className="text-lg mb-4">Provide your contact details here.</p>
-      </div>
+{/* Contact Section */}
+<div className="flex flex-col items-center justify-center min-h-screen p-4" id="Contact">
+  <h2 className="text-3xl font-bold mb-6 text-center">📲 Contact</h2>
+  <p className="text-lg mb-4 text-center">Provide your contact details here.</p>
+</div>
+
     </>
   );
 }
