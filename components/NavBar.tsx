@@ -156,7 +156,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
         <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
             {['Home', 'About', 'Education', 'Project', 'Resume', 'Contact'].map((section) => (
-              <Link key={section} href={`#${section}`} scroll={false} className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive(`#${section}`)}`} onClick={() => setCurrentPath(`#${section}`)}>
+              <Link key={section} href={`#${section}`} scroll={true} className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive(`#${section}`)}`} onClick={() => setCurrentPath(`#${section}`)}>
                 {section === 'Home' ? '🚀' : section === 'About' ? '😎' : section === 'Education' ? '🎓' : section === 'Project' ? '⚒️' : section === 'Resume' ? '📑' : '📲'} {section}
               </Link>
             ))}
