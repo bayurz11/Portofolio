@@ -15,6 +15,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
   const [showIcons, setShowIcons] = useState<boolean>(false);
   const [isGearAnimating, setIsGearAnimating] = useState<boolean>(false);
 
+  // Refs untuk setiap bagian halaman
   const sectionsRef = {
     Home: useRef<HTMLDivElement>(null),
     About: useRef<HTMLDivElement>(null),
@@ -27,12 +28,14 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
   useEffect(() => {
     const initialPath = window.location.hash || "#Home";
     setCurrentPath(initialPath);
-    
+
+    // Fungsi untuk menambah bayangan di navbar saat scroll
     const handleScroll = () => {
       setHasShadow(window.scrollY > 0);
     };
     window.addEventListener("scroll", handleScroll);
 
+    // Fungsi untuk menginisialisasi mode gelap dari localStorage
     const savedMode = localStorage.getItem("darkMode");
     if (savedMode) {
       const isDark = savedMode === "true";
@@ -40,6 +43,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
       document.documentElement.classList.toggle("dark", isDark);
     }
 
+    // Menggunakan Intersection Observer untuk memantau elemen-elemen halaman
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -48,9 +52,10 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.5 } // Set 50% visible untuk memicu perubahan
     );
 
+    // Mulai mengamati setiap ref pada bagian halaman
     Object.values(sectionsRef).forEach((ref) => {
       if (ref.current) {
         observer.observe(ref.current);
@@ -63,6 +68,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
     };
   }, []);
 
+  // Memperbarui hash URL ketika bagian berubah
   useEffect(() => {
     const handleHashChange = () => {
       setCurrentPath(window.location.hash || "#Home");
@@ -74,9 +80,11 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
     };
   }, []);
 
+  // Fungsi untuk mengecek apakah link aktif
   const isActive = (path: string) =>
     currentPath === path ? "text-blue-900 dark:text-white" : "text-gray-700 dark:text-gray-200";
 
+  // Fungsi untuk men-switch mode gelap
   const toggleDarkMode = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
@@ -157,7 +165,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
       </nav>
 
       {/* Icon tambahan di kiri bawah layar untuk mode mobile */}
-      <div className="fixed bottom-4 left-4 flex flex-col space-y-4">
+      <div className="fixed bottom-4 left-4 flex flex-col space-y-4 z-50">
         {showIcons && (
           <div className="flex flex-col space-y-2">
             <button onClick={toggleDarkMode} className="p-3 bg-gray-800 text-white rounded-full shadow-lg hover:bg-gray-700 focus:outline-none">

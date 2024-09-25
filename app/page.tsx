@@ -5,13 +5,18 @@ import Navbar from '../components/NavBar';
 import Link from 'next/link';
 import { FcKindle, FcLinux } from 'react-icons/fc';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 export default function TypewriterEffectDemo() {
   const [isOpen, setIsOpen] = useState(false);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  // Handle scroll events to show/hide scroll-to-top button and update scroll progress
+  const animationVariants = {
+    hidden: { opacity: 0, y: 50 }, // kondisi saat belum terlihat (sembunyi)
+    visible: { opacity: 1, y: 0 }, // kondisi saat muncul (terlihat)
+  };
+
   const handleScroll = () => {
     const scrollTop = window.scrollY;
     const docHeight = document.documentElement.scrollHeight;
@@ -22,7 +27,6 @@ export default function TypewriterEffectDemo() {
     setScrollProgress(scrollPercent);
   };
 
-  // Smooth scroll to the top of the page
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -34,7 +38,6 @@ export default function TypewriterEffectDemo() {
     };
   }, []);
 
-  // Words for typewriter effect
   const words = [
     { text: 'Nur' },
     { text: 'Azani' },
@@ -45,27 +48,50 @@ export default function TypewriterEffectDemo() {
   return (
     <>
       {/* Home Section */}
+      {/* Home Section */}
       <div className="flex flex-col items-center justify-center min-h-screen" id="Home">
         <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
-        <Image
-          src="/egg.png"
-          alt="Logo Desa Mentuda"
-          className="mb-8 h-36 w-36" // Perbaiki ukuran image jika diperlukan
-          width={150}
-          height={150}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.8 }}
+          className="relative"  
+        > 
+          <div className="relative">
+            <Image
+              src="/bayu.png"
+              alt="Logo Desa Mentuda"
+              className="mb-8 h-45 w-36 opacity-80"
+              width={150}
+              height={150}
+            />
+            <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent dark:from-black"></div>
+          </div>      
+        </motion.div>
+        
         <TypewriterEffect words={words} />
-        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 mt-10 items-center justify-center px-4">
+        <motion.div
+          className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 mt-10 items-center justify-center px-4"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          variants={animationVariants}
+        >
           <div className="flex flex-col items-center text-center">
             <p className="text-neutral-600 dark:text-neutral-200 text-base mb-4">
               Web Developer & UI/UX Enthusiast
             </p>
             <p className="text-neutral-500 dark:text-neutral-300 text-base">
-              I am a <b>Fullstack Developer</b> from Indonesia with a strong understanding of programming languages and experience in <b>Web Development</b> projects.
+              I am a <b>Fullstack Developer</b> from Indonesia with a fairly strong understanding of programming languages ​​and experience in several <b>Web Development</b> projects.
             </p>
           </div>
-        </div>
-        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 mt-10 items-center">
+        </motion.div>
+        <motion.div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 mt-10 items-center" initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          variants={animationVariants}>
           <Link href="#Resume">
             <button className="flex items-center bg-yellow-300 hover:bg-yellow-500 text-blue-900 font-medium py-2 px-4 md:py-3 md:px-6 rounded-lg shadow-lg border-2 border-b-4 border-blue-900 transition-all duration-300 hover:scale-105">
               <FcKindle className="mr-2" size={24} />
@@ -78,8 +104,97 @@ export default function TypewriterEffectDemo() {
               <span className="text-sm md:text-base">See More About Me</span>
             </button>
           </Link>
-        </div>
-        {showScrollToTop && (
+        </motion.div>
+      </div>
+
+      {/* About Section */}
+      <motion.div
+        className="flex flex-col text-center items-center justify-start min-h-screen p-4 pt-28"
+        id="About"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        variants={animationVariants}
+      >
+        <h2 className="text-3xl font-bold mb-6 ">😎 About</h2>
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.8 }}
+          className="relative"  
+        > 
+          <p className="text-xl mb-4">Hi, I’m Nur Azani Bayu Rezki 👋</p>   
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.8 }}
+            className="relative"  
+          > 
+            <h3 className="text-neutral-500 dark:text-neutral-300 text-lg mb-4 px-4 md:px-8 lg:px-24">
+              I am a passionate web developer with a knack for turning ideas into interactive and dynamic websites. With a strong foundation in <b>laravel, JavaScript,</b> and <b>Next.js</b>, I specialize in creating seamless and responsive web applications that prioritize both user experience and performance.
+            </h3>   
+          </motion.div>
+        </motion.div>
+      </motion.div>
+
+      {/* Education Section */}
+      <motion.div
+        className="flex flex-col text-center items-center justify-start min-h-screen p-4 pt-28" 
+        id="Education"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        variants={animationVariants}
+      >
+        <h2 className="text-3xl font-bold mb-6">🎓 Education</h2>
+        <p className="text-lg mb-4">Add your educational background here.</p>
+      </motion.div>
+
+      {/* Project Section */}
+      <motion.div
+        className="flex flex-col text-center items-center justify-start min-h-screen p-4 pt-28" 
+        id="Project"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        variants={animationVariants}
+      >
+        <h2 className="text-3xl font-bold mb-6">⚒️ Projects</h2>
+        <p className="text-lg mb-4">Showcase your projects here.</p>
+      </motion.div>
+
+      {/* Resume Section */}
+      <motion.div
+        className="flex flex-col text-center items-center justify-start min-h-screen p-4 pt-28" 
+        id="Resume"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        variants={animationVariants}
+      >
+        <h2 className="text-3xl font-bold mb-6">📑 Resume</h2>
+        <p className="text-lg mb-4">Add a downloadable resume here.</p>
+      </motion.div>
+
+      {/* Contact Section */}
+      <motion.div
+        className="flex flex-col text-center items-center justify-start min-h-screen p-4 pt-28" 
+        id="Contact"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        variants={animationVariants}
+      >
+        <h2 className="text-3xl font-bold mb-6">📲 Contact</h2>
+        <p className="text-lg mb-4">Provide your contact details here.</p>
+      </motion.div>
+
+      {showScrollToTop && (
           <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center z-50">
             <div
               className="w-full h-full rounded-full border-4 border-white flex items-center justify-center"
@@ -96,39 +211,6 @@ export default function TypewriterEffectDemo() {
             </div>
           </div>
         )}
-      </div>
-
-     {/* About Section */}
-<div className="flex flex-col items-center justify-center min-h-screen p-4" id="About">
-  <h2 className="text-3xl font-bold mb-6 text-center">😎 About</h2>
-  <p className="text-lg mb-4 text-center">This is a new section that appears below the first page. You can add more content here as needed.</p>
-</div>
-
-{/* Education Section */}
-<div className="flex flex-col items-center justify-center min-h-screen p-4" id="Education">
-  <h2 className="text-3xl font-bold mb-6 text-center">🎓 Education</h2>
-  <p className="text-lg mb-4 text-center">Add your educational background here.</p>
-</div>
-
-{/* Project Section */}
-<div className="flex flex-col items-center justify-center min-h-screen p-4" id="Project">
-  <h2 className="text-3xl font-bold mb-6 text-center">⚒️ Projects</h2>
-  <p className="text-lg mb-4 text-center">Showcase your projects here.</p>
-</div>
-
-{/* Resume Section */}
-<div className="flex flex-col items-center justify-center min-h-screen p-4" id="Resume">
-  <h2 className="text-3xl font-bold mb-6 text-center">📑 Resume</h2>
-  <p className="text-lg mb-4 text-center">Add a downloadable resume here.</p>
-</div>
-
-{/* Contact Section */}
-<div className="flex flex-col items-center justify-center min-h-screen p-4" id="Contact">
-  <h2 className="text-3xl font-bold mb-6 text-center">📲 Contact</h2>
-  <p className="text-lg mb-4 text-center">Provide your contact details here.</p>
-</div>
-
     </>
   );
 }
-
