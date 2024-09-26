@@ -47,7 +47,7 @@ export default function TypewriterEffectDemo() {
 
   return (
     <>
-      {/* Home Section */}
+      
       {/* Home Section */}
       <div className="flex flex-col items-center justify-center min-h-screen" id="Home">
         <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
@@ -118,6 +118,7 @@ export default function TypewriterEffectDemo() {
         variants={animationVariants}
       >
         <h2 className="text-3xl font-bold mb-6 ">😎 About</h2>
+        
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }} 
