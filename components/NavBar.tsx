@@ -16,14 +16,14 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
   const [isGearAnimating, setIsGearAnimating] = useState<boolean>(false);
 
   // Refs untuk setiap bagian halaman
-  const sectionsRef = {
-    Home: useRef<HTMLDivElement>(null),
-    About: useRef<HTMLDivElement>(null),
-    Education: useRef<HTMLDivElement>(null),
-    Project: useRef<HTMLDivElement>(null),
-    Resume: useRef<HTMLDivElement>(null),
-    Contact: useRef<HTMLDivElement>(null),
-  };
+  const sectionsRef = useRef({
+    Home: null,
+    About: null,
+    Education: null,
+    Project: null,
+    Resume: null,
+    Contact: null,
+  });
 
   useEffect(() => {
     const initialPath = window.location.hash || "#Home";
@@ -56,9 +56,9 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
     );
 
     // Mulai mengamati setiap ref pada bagian halaman
-    Object.values(sectionsRef).forEach((ref) => {
-      if (ref.current) {
-        observer.observe(ref.current);
+    Object.values(sectionsRef.current).forEach((ref) => {
+      if (ref) {
+        observer.observe(ref);
       }
     });
 
@@ -174,12 +174,16 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
             <a href="https://id.linkedin.com/in/nur-azani-bayu-rezki-08369a219" target="_blank" rel="noopener noreferrer" className="p-3 bg-gray-800 text-white rounded-full shadow-lg hover:bg-gray-700 focus:outline-none">
               <FaLinkedin size={24} />
             </a>
-            <a href="https://github.com/bayurz11" target="_blank" rel="noopener noreferrer" className="p-3 bg-gray-800 text-white rounded-full shadow-lg hover:bg-gray-700 focus:outline-none">
+            <a href="https://github.com/bayurezk" target="_blank" rel="noopener noreferrer" className="p-3 bg-gray-800 text-white rounded-full shadow-lg hover:bg-gray-700 focus:outline-none">
               <FaGithub size={24} />
             </a>
           </div>
         )}
-        <button id="gear-button" onClick={handleGearClick} className={`p-3 bg-gray-800 text-white rounded-full shadow-lg hover:bg-gray-700 focus:outline-none transition-transform ${isGearAnimating ? "animate-spin" : ""}`}>
+        <button
+          id="gear-button"
+          onClick={handleGearClick}
+          className={`p-3 bg-gray-800 text-white rounded-full shadow-lg hover:bg-gray-700 focus:outline-none ${isGearAnimating ? 'animate-spin' : ''}`}
+        >
           <BsGear size={24} />
         </button>
       </div>
