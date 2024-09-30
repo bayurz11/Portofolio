@@ -14,9 +14,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [showIcons, setShowIcons] = useState<boolean>(false);
   const [isGearAnimating, setIsGearAnimating] = useState<boolean>(false);
-
-  // Refs untuk setiap bagian halaman
-  const sectionsRef = useRef({
+  const sectionsRef = useRef<{ [key: string]: HTMLDivElement | null }>({
     Home: null,
     About: null,
     Education: null,
@@ -25,64 +23,44 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
     Contact: null,
   });
 
+  // Mengatur scroll dan navigasi
   useEffect(() => {
-    const initialPath = window.location.hash || "#Home";
-    setCurrentPath(initialPath);
-
-    // Fungsi untuk menambah bayangan di navbar saat scroll
     const handleScroll = () => {
       setHasShadow(window.scrollY > 0);
     };
-    window.addEventListener("scroll", handleScroll);
 
-    // Fungsi untuk menginisialisasi mode gelap dari localStorage
-    const savedMode = localStorage.getItem("darkMode");
-    if (savedMode) {
-      const isDark = savedMode === "true";
-      setDarkMode(isDark);
-      document.documentElement.classList.toggle("dark", isDark);
-    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setCurrentPath(`#${entry.target.id}`);
+        }
+      });
+    }, { threshold: 0.5 });
 
-    // Menggunakan Intersection Observer untuk memantau elemen-elemen halaman
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setCurrentPath(`#${entry.target.id}`);
-          }
-        });
-      },
-      { threshold: 0.5 } // Set 50% visible untuk memicu perubahan
-    );
-
-    // Mulai mengamati setiap ref pada bagian halaman
-    Object.values(sectionsRef.current).forEach((ref) => {
-      if (ref) {
-        observer.observe(ref);
+    Object.keys(sectionsRef.current).forEach((key) => {
+      if (sectionsRef.current[key]) {
+        observer.observe(sectionsRef.current[key]!);
       }
     });
 
+    window.addEventListener("scroll", handleScroll);
+    
+    // Cleanup
     return () => {
       window.removeEventListener("scroll", handleScroll);
       observer.disconnect();
     };
   }, []);
 
-  // Memperbarui hash URL ketika bagian berubah
+  // Memperbarui mode gelap
   useEffect(() => {
-    const handleHashChange = () => {
-      setCurrentPath(window.location.hash || "#Home");
-    };
-
-    window.addEventListener("hashchange", handleHashChange);
-    return () => {
-      window.removeEventListener("hashchange", handleHashChange);
-    };
+    const savedMode = localStorage.getItem("darkMode");
+    if (savedMode) {
+      const isDark = savedMode === "true";
+      setDarkMode(isDark);
+      document.documentElement.classList.toggle("dark", isDark);
+    }
   }, []);
-
-  // Fungsi untuk mengecek apakah link aktif
-  const isActive = (path: string) =>
-    currentPath === path ? "text-blue-900 dark:text-white" : "text-gray-700 dark:text-gray-200";
 
   // Fungsi untuk men-switch mode gelap
   const toggleDarkMode = () => {
@@ -98,7 +76,6 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
     setTimeout(() => setIsGearAnimating(false), 150);
   };
 
-  // Fungsi untuk menutup ikon jika klik di luar area
   const handleClickOutside = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
     const gearButton = document.getElementById("gear-button");
@@ -125,10 +102,9 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
             {/* Menu Desktop */}
             <div className="hidden md:flex flex-1 justify-center items-center">
               <div className="flex space-x-9">
-                {/* Link Menu */}
                 {['Home', 'About', 'Education', 'Project', 'Resume', 'Contact'].map((section) => (
                   <Link key={section} href={`#${section}`} onClick={() => setCurrentPath(`#${section}`)}>
-                    <span className={`relative ${isActive(`#${section}`)} group`}>
+                    <span className={`relative ${currentPath === `#${section}` ? "text-blue-900 dark:text-white" : "text-gray-700 dark:text-gray-200"} group`}>
                       <span className="flex items-center space-x-2 text-lg transition-colors duration-300">
                         {section === 'Home' ? '🚀' : section === 'About' ? '😎' : section === 'Education' ? '🎓' : section === 'Project' ? '⚒️' : section === 'Resume' ? '📑' : '📲'}
                         <span>{section}</span>
@@ -156,7 +132,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
         <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
             {['Home', 'About', 'Education', 'Project', 'Resume', 'Contact'].map((section) => (
-              <Link key={section} href={`#${section}`} scroll={true} className={`block px-3 py-2 rounded-md text-lg font-medium ${isActive(`#${section}`)}`} onClick={() => setCurrentPath(`#${section}`)}>
+              <Link key={section} href={`#${section}`} scroll={true} className={`block px-3 py-2 rounded-md text-lg font-medium ${currentPath === `#${section}` ? "text-blue-900 dark:text-white" : "text-gray-700 dark:text-gray-200"}`} onClick={() => setCurrentPath(`#${section}`)}>
                 {section === 'Home' ? '🚀' : section === 'About' ? '😎' : section === 'Education' ? '🎓' : section === 'Project' ? '⚒️' : section === 'Resume' ? '📑' : '📲'} {section}
               </Link>
             ))}

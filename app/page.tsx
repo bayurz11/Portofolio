@@ -6,6 +6,11 @@ import Link from 'next/link';
 import { FcKindle, FcLinux } from 'react-icons/fc';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import AboutSection from '../components/sections/AboutSection';
+import EducationSection from '../components/sections/EducationSection';
+import ProjectSection from '../components/sections/ProjectSection';
+import ResumeSection from '../components/sections/ResumeSection';
+import ContactSection from '../components/sections/ContactSection';
 
 export default function TypewriterEffectDemo() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,8 +18,8 @@ export default function TypewriterEffectDemo() {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   const animationVariants = {
-    hidden: { opacity: 0, y: 50 }, // kondisi saat belum terlihat (sembunyi)
-    visible: { opacity: 1, y: 0 }, // kondisi saat muncul (terlihat)
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
   };
 
   const handleScroll = () => {
@@ -47,8 +52,6 @@ export default function TypewriterEffectDemo() {
 
   return (
     <>
-      
-      {/* Home Section */}
       <div className="flex flex-col items-center justify-center min-h-screen" id="Home">
         <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
         <motion.div
@@ -106,112 +109,31 @@ export default function TypewriterEffectDemo() {
           </Link>
         </motion.div>
       </div>
+      {/* Section Components */}
+      <AboutSection />
+      <EducationSection />
+      <ProjectSection />
+      <ResumeSection />
+      <ContactSection />
 
-      {/* About Section */}
-      <motion.div
-        className="flex flex-col text-center items-center justify-start min-h-screen p-4 pt-28"
-        id="About"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        variants={animationVariants}
-      >
-        <h2 className="text-3xl font-bold mb-6 ">😎 About</h2>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 0.8 }}
-          className="relative"  
-        > 
-          <p className="text-xl mb-4">Hi, I’m Nur Azani Bayu Rezki 👋</p>   
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.8 }}
-            className="relative"  
-          > 
-            <h3 className="text-neutral-500 dark:text-neutral-300 text-lg mb-4 px-4 md:px-8 lg:px-24">
-              I am a passionate web developer with a knack for turning ideas into interactive and dynamic websites. With a strong foundation in <b>laravel, JavaScript,</b> and <b>Next.js</b>, I specialize in creating seamless and responsive web applications that prioritize both user experience and performance.
-            </h3>   
-          </motion.div>
-        </motion.div>
-      </motion.div>
-
-      {/* Education Section */}
-      <motion.div
-        className="flex flex-col text-center items-center justify-start min-h-screen p-4 pt-28" 
-        id="Education"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        variants={animationVariants}
-      >
-        <h2 className="text-3xl font-bold mb-6">🎓 Education</h2>
-        <p className="text-lg mb-4">Add your educational background here.</p>
-      </motion.div>
-
-      {/* Project Section */}
-      <motion.div
-        className="flex flex-col text-center items-center justify-start min-h-screen p-4 pt-28" 
-        id="Project"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        variants={animationVariants}
-      >
-        <h2 className="text-3xl font-bold mb-6">⚒️ Projects</h2>
-        <p className="text-lg mb-4">Showcase your projects here.</p>
-      </motion.div>
-
-      {/* Resume Section */}
-      <motion.div
-        className="flex flex-col text-center items-center justify-start min-h-screen p-4 pt-28" 
-        id="Resume"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        variants={animationVariants}
-      >
-        <h2 className="text-3xl font-bold mb-6">📑 Resume</h2>
-        <p className="text-lg mb-4">Add a downloadable resume here.</p>
-      </motion.div>
-
-      {/* Contact Section */}
-      <motion.div
-        className="flex flex-col text-center items-center justify-start min-h-screen p-4 pt-28" 
-        id="Contact"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        variants={animationVariants}
-      >
-        <h2 className="text-3xl font-bold mb-6">📲 Contact</h2>
-        <p className="text-lg mb-4">Provide your contact details here.</p>
-      </motion.div>
-
+      {/* Scroll to Top Button */}
       {showScrollToTop && (
-          <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center z-50">
-            <div
-              className="w-full h-full rounded-full border-4 border-white flex items-center justify-center"
-              style={{
-                background: `conic-gradient(#4F46E5 ${scrollProgress}%, transparent ${scrollProgress}% 100%)`,
-              }}
+        <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center z-50">
+          <div
+            className="w-full h-full rounded-full border-4 border-white flex items-center justify-center"
+            style={{
+              background: `conic-gradient(#4F46E5 ${scrollProgress}%, transparent ${scrollProgress}% 100%)`,
+            }}
+          >
+            <button
+              onClick={scrollToTop}
+              className="bg-blue-500 text-white w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center"
             >
-              <button
-                onClick={scrollToTop}
-                className="bg-blue-500 text-white w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-900 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
-              >
-                <span className="text-lg md:text-xl">🚀</span>
-              </button>
-            </div>
+              🚀
+            </button>
           </div>
-        )}
+        </div>
+      )}
     </>
   );
 }
