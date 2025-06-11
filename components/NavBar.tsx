@@ -21,7 +21,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
     About: null,
     Education: null,
     Project: null,
-    Cv: null,
+    CV: null,
     Contact: null,
   });
 
@@ -133,7 +133,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
             <div className='hidden md:flex flex-1 justify-center items-center'>
               <div className='flex space-x-9'>
                 {/* Link Menu */}
-                {["Home", "About", "Education", "Project", "Cv", "Contact"].map(
+                {["Home", "About", "Education", "Project", "CV", "Contact"].map(
                   (section) => (
                     <Link
                       key={section}
@@ -150,7 +150,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
                             ? "🎓"
                             : section === "Project"
                             ? "⚒️"
-                            : section === "Cv"
+                            : section === "CV"
                             ? "📑"
                             : "📲"}
                           <span>{section}</span>
@@ -199,7 +199,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
         {/* Mobile Menu */}
         <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
           <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center'>
-            {["Home", "About", "Education", "Project", "Cv", "Contact"].map(
+            {["Home", "About", "Education", "Project", "CV", "Contact"].map(
               (section) => (
                 <Link
                   key={section}
@@ -217,7 +217,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
                     ? "🎓"
                     : section === "Project"
                     ? "⚒️"
-                    : section === "Cv"
+                    : section === "CV"
                     ? "📑"
                     : "📲"}{" "}
                   {section}

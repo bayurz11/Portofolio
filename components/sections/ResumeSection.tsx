@@ -9,14 +9,14 @@ const ResumeSection = () => {
   return (
     <motion.div
       className='flex flex-col text-center items-center justify-start min-h-screen p-4 pt-28'
-      id='Cv'
+      id='CV'
       initial='hidden'
       whileInView='visible'
       viewport={{ once: true }}
       transition={{ duration: 0.8 }}
       variants={animationVariants}>
-      <h2 className='text-3xl font-bold mb-6'>📑 Cv</h2>
-      <p className='text-lg mb-4'>Add a downloadable Cv here.</p>
+      <h2 className='text-3xl font-bold mb-6'>📑 CV</h2>
+      <p className='text-lg mb-4'>Add a downloadable CV here.</p>
     </motion.div>
   );
 };
