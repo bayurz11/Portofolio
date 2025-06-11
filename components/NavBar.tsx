@@ -126,7 +126,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
           <div className='flex justify-between h-16 items-center'>
             <Link href='/' className='flex-shrink-0 flex items-center'>
               <span className='ml-2 font-semibold text-2xl dark:text-white'>
-                BAYU REZ
+                Nur Azani Bayu Rezki
               </span>
             </Link>
             {/* Menu Desktop */}
