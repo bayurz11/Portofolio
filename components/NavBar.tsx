@@ -21,7 +21,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
     About: null,
     Education: null,
     Project: null,
-    Resume: null,
+    Cv: null,
     Contact: null,
   });
 
@@ -133,41 +133,36 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
             <div className='hidden md:flex flex-1 justify-center items-center'>
               <div className='flex space-x-9'>
                 {/* Link Menu */}
-                {[
-                  "Home",
-                  "About",
-                  "Education",
-                  "Project",
-                  "Resume",
-                  "Contact",
-                ].map((section) => (
-                  <Link
-                    key={section}
-                    href={`#${section}`}
-                    onClick={() => setCurrentPath(`#${section}`)}>
-                    <span
-                      className={`relative ${isActive(`#${section}`)} group`}>
-                      <span className='flex items-center space-x-2 text-lg transition-colors duration-300'>
-                        {section === "Home"
-                          ? "🚀"
-                          : section === "About"
-                          ? "😎"
-                          : section === "Education"
-                          ? "🎓"
-                          : section === "Project"
-                          ? "⚒️"
-                          : section === "Resume"
-                          ? "📑"
-                          : "📲"}
-                        <span>{section}</span>
-                        <span
-                          className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${
-                            currentPath === `#${section}` ? "scale-x-100" : ""
-                          }`}></span>
+                {["Home", "About", "Education", "Project", "Cv", "Contact"].map(
+                  (section) => (
+                    <Link
+                      key={section}
+                      href={`#${section}`}
+                      onClick={() => setCurrentPath(`#${section}`)}>
+                      <span
+                        className={`relative ${isActive(`#${section}`)} group`}>
+                        <span className='flex items-center space-x-2 text-lg transition-colors duration-300'>
+                          {section === "Home"
+                            ? "🚀"
+                            : section === "About"
+                            ? "😎"
+                            : section === "Education"
+                            ? "🎓"
+                            : section === "Project"
+                            ? "⚒️"
+                            : section === "Cv"
+                            ? "📑"
+                            : "📲"}
+                          <span>{section}</span>
+                          <span
+                            className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-900 dark:bg-white transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 ${
+                              currentPath === `#${section}` ? "scale-x-100" : ""
+                            }`}></span>
+                        </span>
                       </span>
-                    </span>
-                  </Link>
-                ))}
+                    </Link>
+                  )
+                )}
               </div>
             </div>
 
@@ -204,7 +199,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
         {/* Mobile Menu */}
         <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
           <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center'>
-            {["Home", "About", "Education", "Project", "Resume", "Contact"].map(
+            {["Home", "About", "Education", "Project", "Cv", "Contact"].map(
               (section) => (
                 <Link
                   key={section}
@@ -222,7 +217,7 @@ export default function Navbar({ isOpen, setIsOpen }: NavbarProps) {
                     ? "🎓"
                     : section === "Project"
                     ? "⚒️"
-                    : section === "Resume"
+                    : section === "Cv"
                     ? "📑"
                     : "📲"}{" "}
                   {section}
