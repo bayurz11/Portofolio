@@ -99,12 +99,16 @@ export default function TypewriterEffectDemo() {
           viewport={{ once: true }}
           transition={{ duration: 1 }}
           variants={animationVariants}>
-          <Link href='#Resume'>
+          <a
+            href='https://drive.google.com/file/d/1jdb3gVTXnAB9QCzHfxHrXlxjZNW3Cd8C/view?usp=sharing'
+            target='_blank'
+            rel='noopener noreferrer'>
             <button className='flex items-center bg-yellow-300 hover:bg-yellow-500 text-blue-900 font-medium py-2 px-4 md:py-3 md:px-6 rounded-lg shadow-lg border-2 border-b-4 border-blue-900 transition-all duration-300 hover:scale-105'>
               <FcKindle className='mr-2' size={24} />
               <span className='text-sm md:text-base'>My CV</span>
             </button>
-          </Link>
+          </a>
+
           <Link href='#About'>
             <button className='flex items-center bg-white hover:bg-neutral-200 text-blue-900 font-medium py-2 px-4 md:py-3 md:px-6 rounded-lg shadow-lg border-2 border-b-4 border-blue-900 transition-all duration-300 hover:scale-105'>
               <FcLinux className='mr-2' size={24} />
